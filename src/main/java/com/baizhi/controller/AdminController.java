@@ -18,6 +18,7 @@ public class AdminController {
 
     @RequestMapping("login")
     public Map<String, Object> login(Admin admin, String code, HttpServletRequest request) {
+        System.out.println("111111111111111111");
         HashMap<String, Object> map = new HashMap<>();
         try {
             adminService.longin(admin, code, request);
