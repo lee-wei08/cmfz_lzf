@@ -1,5 +1,7 @@
 package com.baizhi.service.impl;
 
+import com.baizhi.annotaion.ClearRedisCache;
+import com.baizhi.annotaion.RedisCache;
 import com.baizhi.dao.ChapterDao;
 import com.baizhi.entity.Chapter;
 import com.baizhi.service.ChapterService;
@@ -19,6 +21,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @RedisCache
     public Map<String, Object> findAll(Integer page, Integer rows, String albumId) {
         HashMap<String, Object> map = new HashMap<>();
         Chapter chapter = new Chapter();
@@ -34,6 +37,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @ClearRedisCache
     public String add(Chapter chapter) {
         chapter.setId(UUID.randomUUID().toString());
         chapter.setCreateDate(new Date());
@@ -42,6 +46,8 @@ public class ChapterServiceImpl implements ChapterService {
         return chapter.getId();
     }
 
+    @Override
+    @ClearRedisCache
     public void edit(Chapter chapter) {
         int i = chapterDao.updateByPrimaryKeySelective(chapter);
         if (i == 0) throw new RuntimeException("修改章节失败");

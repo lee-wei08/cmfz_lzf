@@ -1,5 +1,7 @@
 package com.baizhi.service.impl;
 
+import com.baizhi.annotaion.ClearRedisCache;
+import com.baizhi.annotaion.RedisCache;
 import com.baizhi.dao.StarDao;
 import com.baizhi.entity.Star;
 import com.baizhi.service.StarService;
@@ -19,6 +21,7 @@ public class StarServiceImpl implements StarService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @RedisCache
     public Map<String, Object> findAll(Integer page, Integer rows) {
         Map<String, Object> map = new HashMap<>();
         Star star = new Star();
@@ -33,6 +36,7 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
+    @ClearRedisCache
     public String add(Star star) {
         star.setId(UUID.randomUUID().toString());
         star.setBir(new Date());
@@ -42,6 +46,7 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
+    @ClearRedisCache
     public void edit(Star star) {
         if (" ".equals(star.getPhoto())) {
             star.setPhoto(null);

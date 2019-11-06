@@ -22,7 +22,7 @@ public class BannerController {
 
     @RequestMapping("findAll")
     public Map<String, Object> findAll(Integer page, Integer rows) {
-        Map<String, Object> map = bannerService.selectAll(page, rows);
+        Map<String, Object> map = bannerService.findAll(page, rows);
         return map;
     }
 

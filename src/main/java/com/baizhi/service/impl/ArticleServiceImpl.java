@@ -1,5 +1,7 @@
 package com.baizhi.service.impl;
 
+import com.baizhi.annotaion.ClearRedisCache;
+import com.baizhi.annotaion.RedisCache;
 import com.baizhi.dao.ArticleDao;
 import com.baizhi.entity.Article;
 import com.baizhi.service.ArticleService;
@@ -20,6 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @RedisCache
     public Map<String, Object> findeAll(Integer page, Integer rows) {
         Article article = new Article();
         RowBounds rowBounds = new RowBounds((page - 1) * rows, rows);
@@ -34,6 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @ClearRedisCache
     public void add(Article article) {
         article.setCreateDate(new Date());
         article.setId(UUID.randomUUID().toString());
@@ -42,12 +46,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @ClearRedisCache
     public void edit(Article article) {
         int i = articleDao.updateByPrimaryKeySelective(article);
         if (i == 0) throw new RuntimeException("修改失败");
     }
 
     @Override
+    @ClearRedisCache
     public void del(String id) {
         int i = articleDao.deleteByPrimaryKey(id);
         if (i == 0) throw new RuntimeException("删除失败");

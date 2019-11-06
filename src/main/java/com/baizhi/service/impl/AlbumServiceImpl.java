@@ -1,5 +1,7 @@
 package com.baizhi.service.impl;
 
+import com.baizhi.annotaion.ClearRedisCache;
+import com.baizhi.annotaion.RedisCache;
 import com.baizhi.dao.AlbumDao;
 import com.baizhi.dao.StarDao;
 import com.baizhi.entity.Album;
@@ -24,6 +26,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
+    @RedisCache
     public Map<String, Object> findAll(Integer page, Integer rows) {
         Map<String, Object> map = new HashMap<>();
         Album album = new Album();
@@ -44,6 +47,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @ClearRedisCache
     public String add(Album album) {
         album.setId(UUID.randomUUID().toString());
         album.setCreateDate(new Date());
@@ -54,6 +58,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @ClearRedisCache
     public void edit(Album album) {
         if ("".equals(album.getCover())) {
             album.setCover(null);

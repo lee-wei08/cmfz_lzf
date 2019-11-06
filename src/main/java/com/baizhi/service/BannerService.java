@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface BannerService {
-    public Map<String, Object> selectAll(Integer page, Integer rows);
+    public Map<String, Object> findAll(Integer page, Integer rows);
 
     public String add(Banner banner);
 
