@@ -1,0 +1,27 @@
+server:
+  port: 8989
+  servlet:
+    context-path: /cmfz_lzf
+    jsp:
+      init-parameters:
+        development: true
+
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp  # 配置视图解析器
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+  # 创建数据源
+  datasource:
+    type: org.apache.commons.dbcp.BasicDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lee?characterEncoding=UTF-8
+    username: root
+    password: root
+mybatis:
+  type-aliases-package: com.baizhi.entity # 起别名
+  mapper-locations: classpath:com/baizhi/mapper/*Mapper.xml  # 指定mapper文件位置

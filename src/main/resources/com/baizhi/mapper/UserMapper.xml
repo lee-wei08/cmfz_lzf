@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDao">
+    <select id="selectReg" resultType="Integer">
+        select count(id) from t_user where month(create_date)=#{month} and sex=#{sex}
+    </select>
+    <select id="select11" resultType="User">
+        SELECT * from t_user
+    </select>
+</mapper>
