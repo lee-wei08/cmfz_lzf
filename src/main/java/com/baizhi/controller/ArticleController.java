@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("article")
@@ -43,9 +44,11 @@ public class ArticleController {
         }
         return map;
     }
-//    @RequestMapping("")
-//    public Map<String,Object> upload(){
-//
-//    }
+
+    @RequestMapping("search")
+    public List<Article> search(String content) {
+        List<Article> search = articleService.search(content);
+        return search;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.baizhi.service.impl;
 import com.baizhi.dao.AdminDao;
 import com.baizhi.entity.Admin;
 import com.baizhi.service.AdminService;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,7 +42,16 @@ public class AdminServiceImpl implements AdminService {
         String phone = (String) session.getAttribute("phone");
         if (!note.equals(code)) throw new RuntimeException("验证码不正确");
         if (!phone.equals(admin.getPhone())) throw new RuntimeException("所注册手机号不正确");
+        // 生成id
         admin.setId(UUID.randomUUID().toString());
+        // 密码 加密 散列
+        Md5Hash md5Hash = new Md5Hash(admin.getPassword(), "abcd", 1024);
+        // 把 Md5对象转换为 16进制数
+        String password = md5Hash.toHex();
+        // 密码
+        admin.setPassword(password);
+        // 盐
+        admin.setSalt("abcd");
         adminDao.insertSelective(admin);
     }
 }

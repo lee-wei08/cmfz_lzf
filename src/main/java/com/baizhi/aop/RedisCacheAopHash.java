@@ -7,16 +7,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.Jedis;
 
 import java.lang.reflect.Method;
 
-@Configuration // 一般Bean 可以用的注解 都可以使用 利如Autowired
-@Aspect // 作用 是把当前类标识为一个切面供容器读取
+//@Configuration // 一般Bean 可以用的注解 都可以使用 利如Autowired
+//@Aspect // 作用 是把当前类标识为一个切面供容器读取
 public class RedisCacheAopHash {
     // 依赖jedjs
     @Autowired
@@ -47,7 +45,8 @@ public class RedisCacheAopHash {
             if (jedis.hexists(classname, sb.toString())) {
                 // 存在 直接从缓存中取到 返回
                 String result = jedis.hget(classname, sb.toString());
-                return result;
+                Object parse = JSONObject.parse(result);
+                return parse;
             } else {
                 // 缓存中不存在 加入缓存
                 Object proceed = proceedingJoinPoint.proceed(); // 放行后 返回查询结果
